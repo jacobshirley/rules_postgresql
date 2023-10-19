@@ -70,6 +70,11 @@ postgresql_toolchain = rule(
             mandatory = False,
             default = "bin/pg_ctl",
         ),
+        "data": attr.label_list(
+            doc = "Files required in runfiles to make the tool executable available.",
+            mandatory = False,
+            allow_files = True,
+        ),
         "target_tool": attr.label(
             doc = "A hermetically downloaded executable target for the target platform.",
             mandatory = False,
@@ -78,11 +83,6 @@ postgresql_toolchain = rule(
         "target_tool_path": attr.string(
             doc = "Path to an existing executable for the target platform.",
             mandatory = False,
-        ),
-        "data": attr.label_list(
-            doc = "Files required in runfiles to make the tool executable available.",
-            mandatory = False,
-            allow_files = True,
         ),
     },
     doc = """Defines a postgresql compiler/runtime toolchain.

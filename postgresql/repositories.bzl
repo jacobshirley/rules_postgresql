@@ -49,8 +49,8 @@ def rules_postgresql_dependencies():
 ########
 _DOC = "Fetch external tools needed for postgresql toolchain"
 _ATTRS = {
-    "postgresql_version": attr.string(mandatory = True, values = TOOL_VERSIONS.keys()),
     "platform": attr.string(mandatory = True, values = PLATFORMS.keys()),
+    "postgresql_version": attr.string(mandatory = True, values = TOOL_VERSIONS.keys()),
     "_build_tpl": attr.label(
         default = Label("@rules_postgresql//postgresql:BUILD.postgres.tpl.bazel"),
         allow_single_file = True,
@@ -59,15 +59,6 @@ _ATTRS = {
 
 # TODO: add these to the toolchain
 LINUX_LIBS = {
-    "linux_arm64": [
-        #TODO: include libssl here
-        #TODO: include zlib here
-        # https://packages.ubuntu.com/focal/arm64/libicu66/download
-        (
-            "6302e309ab002af30ddfa0d68de26c68f7c034ed2f45b1d97a712bff1a03999a",
-            "http://ports.ubuntu.com/pool/main/i/icu/libicu66_66.1-2ubuntu2_arm64.deb",
-        ),
-    ],
     "linux_amd64": [
         #TODO: include libssl here
         #TODO: include zlib here
@@ -75,6 +66,15 @@ LINUX_LIBS = {
         (
             "00d0de456134668f41bd9ea308a076bc0a6a805180445af8a37209d433f41efe",
             "http://security.ubuntu.com/ubuntu/pool/main/i/icu/libicu66_66.1-2ubuntu2.1_amd64.deb",
+        ),
+    ],
+    "linux_arm64": [
+        #TODO: include libssl here
+        #TODO: include zlib here
+        # https://packages.ubuntu.com/focal/arm64/libicu66/download
+        (
+            "6302e309ab002af30ddfa0d68de26c68f7c034ed2f45b1d97a712bff1a03999a",
+            "http://ports.ubuntu.com/pool/main/i/icu/libicu66_66.1-2ubuntu2_arm64.deb",
         ),
     ],
 }

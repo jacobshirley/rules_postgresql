@@ -26,6 +26,8 @@ def _postgres_server_test_impl(ctx):
         content = """#!/bin/bash
 cd $(dirname {binary})
 
+# Set this so that we do not use Unix sockets
+export PGHOST=localhost
 {env}
 
 pg_ctl --version
@@ -81,13 +83,13 @@ This rule waits for the Postgres server to be ready before running the script.
         "data": attr.label_list(
             allow_files = True,
         ),
-        "fixed_args": attr.string_list(
-            default = [],
-            doc = """Arguments to pass to the Postgres server.""",
-        ),
         "env": attr.string_dict(
             default = {},
             doc = """Environment variables to set for the Postgres server.""",
+        ),
+        "fixed_args": attr.string_list(
+            default = [],
+            doc = """Arguments to pass to the Postgres server.""",
         ),
     },
     toolchains = ["//postgresql:toolchain_type"],
