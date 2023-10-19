@@ -14,6 +14,25 @@ local_repository(
 # you should fetch it *before* calling this.
 # Alternatively, you can skip calling this function, so long as you've
 # already fetched all the dependencies.
-load("@rules_postgresql//postgresql:repositories.bzl", "rules_postgresql_dependencies")
+load("@rules_postgresql//postgresql:repositories.bzl", "postgresql_register_toolchains", "rules_postgresql_dependencies")
 
 rules_postgresql_dependencies()
+
+load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
+
+rules_foreign_cc_dependencies()
+
+postgresql_register_toolchains(
+    name = "pg_toolchains",
+    postgresql_version = "15.3",
+)
+
+load("@aspect_bazel_lib//lib:repositories.bzl", "aspect_bazel_lib_dependencies", "aspect_bazel_lib_register_toolchains")
+
+# Required bazel-lib dependencies
+
+aspect_bazel_lib_dependencies()
+
+# Register bazel-lib toolchains
+
+aspect_bazel_lib_register_toolchains()

@@ -14,8 +14,10 @@ bazel_dep(name = "bazel_skylib_gazelle_plugin", version = "1.4.1", dev_dependenc
 bazel_dep(name = "aspect_bazel_lib", version = "1.32.1", dev_dependency = True)
 bazel_dep(name = "buildifier_prebuilt", version = "6.1.2", dev_dependency = True)
 
+bazel_dep(name = "rules_foreign_cc", version = "0.0.0")
+
 postgresql = use_extension("//postgresql:extensions.bzl", "postgresql")
-postgresql.toolchain(postgresql_version = "1.14.2")
+postgresql.toolchain(postgresql_version = "15.3")
 use_repo(postgresql, "postgresql_toolchains")
 
 register_toolchains("@postgresql_toolchains//:all")
