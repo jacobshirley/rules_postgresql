@@ -65,6 +65,7 @@ configure_make(
             "INSTALL_RPATH": "@executable_path/../lib",
             "LDFLAGS_SL": "-Wl,-rpath,@executable_path/../lib",
         },
+        "//conditions:default": {},
     }),
     configure_options = [
          "--with-zlib"
@@ -100,6 +101,7 @@ for bin in $BINS; do
     install_name_tool -add_rpath @loader_path/../lib $INSTALLDIR/bin/$bin
 done
     """,
+        "//conditions:default": "",
     }),
     visibility = ["//visibility:public"],
 )
