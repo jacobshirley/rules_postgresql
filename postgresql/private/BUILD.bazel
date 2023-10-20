@@ -6,8 +6,8 @@ exports_files(
 )
 
 bzl_library(
-    name = "postgres_server_test",
-    srcs = ["postgres_server_test.bzl"],
+    name = "postgresql_server_test",
+    srcs = ["postgresql_server_test.bzl"],
     visibility = [
         "//docs:__subpackages__",
     ],

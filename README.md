@@ -1,5 +1,17 @@
 # Bazel rules for postgresql
 
+## Features
+
+* Download and install postgresql hermetically, as a toolchain*
+* Creates a new postgresql cluster, with a new data directory, for each test
+* Supports multiple versions of postgresql (though only 15.3 added for now)
+* Supports multiple operating systems (linux, macos, windows)
+* Supports multiple architectures (x86_64, arm64)
+
+## Future
+
+* Add support for random port selection
+
 ## Installation
 
 From the release you wish to use:
@@ -16,3 +28,8 @@ For example to use commit `abc123`:
    print a message with the correct value. Note that GitHub source archives don't have a strong
    guarantee on the sha256 stability, see
    <https://github.blog/2023-02-21-update-on-the-future-stability-of-source-code-archives-and-hashes/>
+
+## Usage
+
+See e2e/smoke for an example of how to use the rules. Note only `postgresql_server_test` is supported at the moment.
+See docs/ for info on the arguments to the rules.

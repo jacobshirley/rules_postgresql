@@ -48,7 +48,7 @@ BINS = [
 ]
 
 configure_make(
-    name = "postgres_build",
+    name = "postgresql_build",
     args = [],
     configure_in_place = True,
     configure_options = [
@@ -109,5 +109,5 @@ done
 postgresql_toolchain(
     name = "postgresql_toolchain",
     binary = "bin/pg_ctl",
-    target_tool = ":postgres_build",
+    target_tool = ":postgresql_build",
 )

@@ -4,7 +4,7 @@ A rule to provide a Postgres server for testing.
 
 load("@aspect_bazel_lib//lib:expand_make_vars.bzl", "expand_locations", "expand_variables")
 
-def _postgres_server_test_impl(ctx):
+def _postgresql_server_test_impl(ctx):
     is_windows = ctx.target_platform_has_constraint(ctx.attr._windows_constraint[platform_common.ConstraintValueInfo])
 
     fixed_args = ctx.attr.fixed_args
@@ -103,8 +103,8 @@ pg_ctl stop -D $TEST_TMPDIR/postgres
         ),
     ]
 
-postgres_server_test = rule(
-    implementation = _postgres_server_test_impl,
+postgresql_server_test = rule(
+    implementation = _postgresql_server_test_impl,
     doc = """Provides runnable Postgres wrapper script and providers for a root module.
 
 This rule waits for the Postgres server to be ready before running the script.

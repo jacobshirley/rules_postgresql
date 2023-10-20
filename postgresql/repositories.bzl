@@ -61,14 +61,14 @@ def _postgresql_repo_impl(repository_ctx):
 load("@rules_postgresql//postgresql:toolchain.bzl", "postgresql_toolchain")
 
 filegroup(
-    name = "postgres_build",
+    name = "postgresql_build",
     srcs = glob(["pgsql/**/*"]),
 )
 
 postgresql_toolchain(
     name = "postgresql_toolchain", 
     binary = "bin/pg_ctl.exe",
-    target_tool = ":postgres_build",
+    target_tool = ":postgresql_build",
 )
             """,
         )
