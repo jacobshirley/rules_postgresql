@@ -71,9 +71,9 @@ load("@rules_postgresql//postgresql:toolchain.bzl", "postgresql_toolchain")
 filegroup(
     name = "postgresql_build",
     srcs = glob([
-        "pgsql/bin/*",
-        "pgsql/lib/*",
-        "pgsql/share/*",
+        "pgsql/bin/**/*",
+        "pgsql/lib/**/*",
+        "pgsql/share/**/*",
     ]),
 )
 
