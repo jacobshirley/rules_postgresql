@@ -1,9 +1,9 @@
 """Register toolchains for postgresql.
 """
 
+load("@aspect_bazel_lib//lib:repo_utils.bzl", "repo_utils")
 load("//postgresql/private:toolchains_repo.bzl", "PLATFORMS", "toolchains_repo")
 load("//postgresql/private:versions.bzl", "TOOL_VERSIONS")
-load("@aspect_bazel_lib//lib:repo_utils.bzl", "repo_utils")
 
 ########
 # Remaining content of the file is only used to support toolchains.
@@ -43,10 +43,18 @@ LINUX_LIBS = {
 def _postgresql_repo_impl(repository_ctx):
     platform = repository_ctx.attr.platform
     version = repository_ctx.attr.postgresql_version
-    if (repo_utils.is_windows(repository_ctx)):
-        url = "https://get.enterprisedb.com/postgresql/postgresql-{version}-1-windows-x64-binaries.zip".format(
+
+    windows_or_osx = repo_utils.is_windows(repository_ctx) or repo_utils.is_darwin(repository_ctx)
+
+    #If a binary is available, use that
+    if (windows_or_osx and TOOL_VERSIONS[repository_ctx.attr.postgresql_version]["bin"][platform]):
+        suffix = "windows-x64-binaries" if repo_utils.is_windows(repository_ctx) else "osx-binaries"
+
+        url = "https://get.enterprisedb.com/postgresql/postgresql-{version}-1-{suffix}.zip".format(
             version = version,
+            suffix = suffix,
         )
+
         repository_ctx.download_and_extract(
             url = url,
             integrity = TOOL_VERSIONS[repository_ctx.attr.postgresql_version]["bin"][platform],
@@ -62,15 +70,20 @@ load("@rules_postgresql//postgresql:toolchain.bzl", "postgresql_toolchain")
 
 filegroup(
     name = "postgresql_build",
-    srcs = glob(["pgsql/**/*"]),
+    srcs = glob([
+        "pgsql/bin/*",
+        "pgsql/lib/*",
+    ]),
 )
 
 postgresql_toolchain(
     name = "postgresql_toolchain", 
-    binary = "bin/pg_ctl.exe",
+    binary = "bin/pg_ctl{extension}",
     target_tool = ":postgresql_build",
 )
-            """,
+            """.format(
+                extension = ".exe" if repo_utils.is_windows(repository_ctx) else "",
+            ),
         )
     else:
         rel = version.replace(".", "_")
