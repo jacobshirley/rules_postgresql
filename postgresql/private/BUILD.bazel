@@ -9,7 +9,7 @@ bzl_library(
     name = "postgresql_server_test",
     srcs = ["postgresql_server_test.bzl"],
     visibility = [
-        "//docs:__subpackages__",
+        "//docs:__pkg__",
     ],
     deps = [
         "@aspect_bazel_lib//lib:expand_make_vars",
