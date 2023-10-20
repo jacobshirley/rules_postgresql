@@ -14,13 +14,15 @@ local_repository(
 # you should fetch it *before* calling this.
 # Alternatively, you can skip calling this function, so long as you've
 # already fetched all the dependencies.
-load("@rules_postgresql//postgresql:repositories.bzl", "postgresql_register_toolchains", "rules_postgresql_dependencies")
+load("@rules_postgresql//postgresql:deps.bzl",  "rules_postgresql_dependencies")
 
 rules_postgresql_dependencies()
 
 load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
 
 rules_foreign_cc_dependencies()
+
+load("@rules_postgresql//postgresql:repositories.bzl", "postgresql_register_toolchains")
 
 postgresql_register_toolchains(
     name = "postgres_15_3",

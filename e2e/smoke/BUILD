@@ -6,5 +6,5 @@ load("@rules_postgresql//postgresql:defs.bzl", "postgres_server_test")
 
 postgres_server_test(
     name = "sql_query",
-    cmd = "psql -U postgres -d postgres -c '\\l'",
+    cmd = "psql -U postgres -d postgres -c \"\\l\"",
 )

@@ -3,12 +3,17 @@ A rule to provide a Postgres server for testing.
 """
 
 load("@aspect_bazel_lib//lib:expand_make_vars.bzl", "expand_locations", "expand_variables")
+load("@aspect_bazel_lib//lib:repo_utils.bzl", "repo_utils")
 
 def _postgres_server_test_impl(ctx):
+    is_windows = ctx.target_platform_has_constraint(ctx.attr._windows_constraint[platform_common.ConstraintValueInfo])
+
     fixed_args = ctx.attr.fixed_args
     postgresqlinfo = ctx.toolchains["//postgresql:toolchain_type"].postgresqlinfo
 
     executable = ctx.actions.declare_file(
+        ctx.label.name + "_wrapper.bat",
+    ) if (is_windows) else ctx.actions.declare_file(
         ctx.label.name + "_wrapper.sh",
     )
 
@@ -22,10 +27,41 @@ def _postgres_server_test_impl(ctx):
     args = ctx.actions.args()
     args.add_all(fixed_args_expanded)
 
-    #expand_variables(ctx, s, outs, attribute_name)
-    ctx.actions.write(
-        output = executable,
-        content = """#!/bin/bash
+    if (is_windows):
+        ctx.actions.write(
+            output = executable,
+            content = """
+
+cd {binary}\\..
+
+dir
+
+rem Set this so that we do not use Unix sockets
+set PGHOST=localhost
+{env}
+
+pg_ctl --version
+
+pg_ctl init -D $TEST_TMPDIR/postgres
+pg_ctl start -w -D $TEST_TMPDIR/postgres
+
+createuser -s postgres
+
+{cmd}
+
+pg_ctl stop -D $TEST_TMPDIR/postgres
+            """.format(
+                binary = postgresqlinfo.target_tool_path,
+                cmd = cmd,
+                env = " ".join(["set {}=\"{}\"".format(key, value) for (key, value) in ctx.attr.env.items()]),
+            ),
+            is_executable = True,
+        )
+    else:
+        ctx.actions.write(
+            output = executable,
+            content = """
+#!/bin/bash
 cd $(dirname {binary})
 
 # Set this so that we do not use Unix sockets
@@ -40,18 +76,15 @@ pg_ctl start -w -D $TEST_TMPDIR/postgres
 createuser -s postgres
 
 {cmd}
-res=$?
 
 pg_ctl stop -D $TEST_TMPDIR/postgres
-
-exit $res
-        """.format(
-            binary = postgresqlinfo.target_tool_path,
-            cmd = cmd,
-            env = " ".join(["export {}=\"{}\"".format(key, value) for (key, value) in ctx.attr.env.items()]),
-        ),
-        is_executable = True,
-    )
+            """.format(
+                binary = postgresqlinfo.target_tool_path,
+                cmd = "'" + cmd.replace("'", "'\\''") + "'",
+                env = " ".join(["export {}=\"{}\"".format(key, value) for (key, value) in ctx.attr.env.items()]),
+            ),
+            is_executable = True,
+        )
 
     inputs = postgresqlinfo.tool_files
 
@@ -94,6 +127,7 @@ This rule waits for the Postgres server to be ready before running the script.
             default = [],
             doc = """Arguments to pass to the 'binary' (if set)""",
         ),
+        "_windows_constraint": attr.label(default = "@platforms//os:windows"),
     },
     toolchains = ["//postgresql:toolchain_type"],
     executable = False,

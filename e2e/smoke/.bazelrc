@@ -1,1 +1,2 @@
 build --enable_platform_specific_config
+test --enable_runfiles
