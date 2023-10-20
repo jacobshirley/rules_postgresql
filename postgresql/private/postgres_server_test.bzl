@@ -31,6 +31,7 @@ def _postgres_server_test_impl(ctx):
         ctx.actions.write(
             output = executable,
             content = """
+@echo off
 
 cd {binary}\\..
 
@@ -48,6 +49,11 @@ pg_ctl start -w -D $TEST_TMPDIR/postgres
 createuser -s postgres
 
 {cmd}
+
+if %errorlevel% neq 0 (
+    pg_ctl stop -D $TEST_TMPDIR/postgres
+    exit /b %errorlevel%
+)
 
 pg_ctl stop -D $TEST_TMPDIR/postgres
             """.format(
