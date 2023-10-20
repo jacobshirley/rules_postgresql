@@ -1,10 +1,10 @@
 """This module implements an alias rule to the resolved toolchain.
 """
 
-DOC = """\
-Exposes a concrete toolchain which is the result of Bazel resolving the
-toolchain for the execution or target platform.
-Workaround for https://github.com/bazelbuild/bazel/issues/14009
+DOC = """\\\r
+Exposes a concrete toolchain which is the result of Bazel resolving the\r
+toolchain for the execution or target platform.\r
+Workaround for https://github.com/bazelbuild/bazel/issues/14009\r
 """
 
 # Forward all the providers

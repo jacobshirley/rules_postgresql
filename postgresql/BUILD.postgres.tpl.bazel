@@ -6,7 +6,7 @@ filegroup(
     name = "srcs",
     srcs = glob(
         ["postgres-REL_{version}/**"],
-        exclude = ["*.bazel"]
+        exclude = ["*.bazel"],
     ),
     visibility = ["//visibility:public"],
 )
@@ -44,16 +44,15 @@ BINS = [
     "postmaster",
     "psql",
     "reindexdb",
-    "vacuumdb"
+    "vacuumdb",
 ]
 
 configure_make(
     name = "postgres_build",
+    args = [],
     configure_in_place = True,
-    alwayslink = True,
-    lib_source = ":srcs",
-    targets = [
-        "install"
+    configure_options = [
+        "--with-zlib",
     ],
     env = select({
         "@platforms//os:macos": {
@@ -67,19 +66,16 @@ configure_make(
         },
         "//conditions:default": {},
     }),
-    configure_options = [
-         "--with-zlib"
-    ],
-    args = [],
-    out_data_dirs = [
-        "share",
-        "lib" #Add lib here to save having to explicitly add them all to the out_shared_libs parameter
-    ],
-    out_lib_dir = "lib",
+    lib_source = ":srcs",
     out_binaries = select({
         "@platforms//os:windows": [bin + ".exe" for bin in BINS],
         "//conditions:default": BINS,
     }),
+    out_data_dirs = [
+        "share",
+        "lib",  #Add lib here to save having to explicitly add them all to the out_shared_libs parameter
+    ],
+    out_lib_dir = "lib",
     postfix_script = select({
         # Need to fix the install_name as on Mac OSX it is hard coded to the build directory
         "@platforms//os:macos": """
@@ -103,11 +99,15 @@ done
     """,
         "//conditions:default": "",
     }),
+    targets = [
+        "install",
+    ],
     visibility = ["//visibility:public"],
+    alwayslink = True,
 )
 
 postgresql_toolchain(
-    name = "postgresql_toolchain", 
+    name = "postgresql_toolchain",
     binary = "bin/pg_ctl",
     target_tool = ":postgres_build",
 )

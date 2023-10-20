@@ -14,7 +14,7 @@ local_repository(
 # you should fetch it *before* calling this.
 # Alternatively, you can skip calling this function, so long as you've
 # already fetched all the dependencies.
-load("@rules_postgresql//postgresql:deps.bzl",  "rules_postgresql_dependencies")
+load("@rules_postgresql//postgresql:deps.bzl", "rules_postgresql_dependencies")
 
 rules_postgresql_dependencies()
 

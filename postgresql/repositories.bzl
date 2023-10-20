@@ -49,7 +49,7 @@ def _postgresql_repo_impl(repository_ctx):
         )
         repository_ctx.download_and_extract(
             url = url,
-            integrity = TOOL_VERSIONS[repository_ctx.attr.postgresql_version]["bin"][platform]
+            integrity = TOOL_VERSIONS[repository_ctx.attr.postgresql_version]["bin"][platform],
         )
 
         repository_ctx.file(
@@ -70,16 +70,16 @@ postgresql_toolchain(
     binary = "bin/pg_ctl.exe",
     target_tool = ":postgres_build",
 )
-            """
+            """,
         )
     else:
         rel = version.replace(".", "_")
         url = "https://github.com/postgres/postgres/archive/refs/tags/REL_{version}.tar.gz".format(
-            version = rel
+            version = rel,
         )
         repository_ctx.download_and_extract(
             url = url,
-            integrity = TOOL_VERSIONS[repository_ctx.attr.postgresql_version]["src"]
+            integrity = TOOL_VERSIONS[repository_ctx.attr.postgresql_version]["src"],
         )
 
         # Base BUILD file for this repository

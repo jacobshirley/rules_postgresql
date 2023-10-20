@@ -15,9 +15,9 @@ load(":repositories.bzl", "postgresql_register_toolchains")
 _DEFAULT_NAME = "postgresql"
 
 postgresql_toolchain = tag_class(attrs = {
-    "name": attr.string(doc = """\
-Base name for generated repositories, allowing more than one postgresql toolchain to be registered.
-Overriding the default is only permitted in the root module.
+    "name": attr.string(doc = """\\\r
+Base name for generated repositories, allowing more than one postgresql toolchain to be registered.\r
+Overriding the default is only permitted in the root module.\r
 """, default = _DEFAULT_NAME),
     "postgresql_version": attr.string(doc = "Explicit version of postgresql.", mandatory = True),
 })
@@ -27,9 +27,9 @@ def _toolchain_extension(module_ctx):
     for mod in module_ctx.modules:
         for toolchain in mod.tags.toolchain:
             if toolchain.name != _DEFAULT_NAME and not mod.is_root:
-                fail("""\
-                Only the root module may override the default name for the postgresql toolchain.
-                This prevents conflicting registrations in the global namespace of external repos.
+                fail("""\\\r
+                Only the root module may override the default name for the postgresql toolchain.\r
+                This prevents conflicting registrations in the global namespace of external repos.\r
                 """)
             if toolchain.name not in registrations.keys():
                 registrations[toolchain.name] = []

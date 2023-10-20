@@ -8,7 +8,7 @@ TOOL_VERSIONS = {
     "15.3": {
         "src": "sha384-JCfvuaHC/j7GB2trCGCQ6slFoSz1gfLXmfIBZat97l84MQl7UlBG9dNkUJlzJAFJ",
         "bin": {
-            "x86_64-pc-windows-msvc": "sha384-t8ZtT/NzGkZAtxPRcRk1Jyc97g23BgRnHoPWJTpXKH06JhDRnnrSeP+7x0zE95r2"
-        }
-    }
+            "x86_64-pc-windows-msvc": "sha384-t8ZtT/NzGkZAtxPRcRk1Jyc97g23BgRnHoPWJTpXKH06JhDRnnrSeP+7x0zE95r2",
+        },
+    },
 }
