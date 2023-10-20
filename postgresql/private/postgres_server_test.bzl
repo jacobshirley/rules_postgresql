@@ -3,7 +3,6 @@ A rule to provide a Postgres server for testing.
 """
 
 load("@aspect_bazel_lib//lib:expand_make_vars.bzl", "expand_locations", "expand_variables")
-load("@aspect_bazel_lib//lib:repo_utils.bzl", "repo_utils")
 
 def _postgres_server_test_impl(ctx):
     is_windows = ctx.target_platform_has_constraint(ctx.attr._windows_constraint[platform_common.ConstraintValueInfo])
