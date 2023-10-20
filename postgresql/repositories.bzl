@@ -73,6 +73,7 @@ filegroup(
     srcs = glob([
         "pgsql/bin/*",
         "pgsql/lib/*",
+        "pgsql/share/*",
     ]),
 )
 
