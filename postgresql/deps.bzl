@@ -37,7 +37,7 @@ def rules_postgresql_dependencies():
 
     http_archive(
         name = "aspect_bazel_lib",
-        sha256 = "cbf473d630ab67b36461d83b38fdc44e56f45b78d03c405e4958280211124d79",
-        strip_prefix = "bazel-lib-1.36.0",
-        url = "https://github.com/aspect-build/bazel-lib/releases/download/v1.36.0/bazel-lib-v1.36.0.tar.gz",
+        sha256 = "c75f8c375f9f2c73a565dba188f91a4e8d7ca16dd2b6152d3886c26bbf1c6532",
+        strip_prefix = "bazel-lib-3.7.2",
+        url = "https://github.com/aspect-build/bazel-lib/releases/download/v3.7.2/bazel-lib-v3.7.2.tar.gz",
     )
