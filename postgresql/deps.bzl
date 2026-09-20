@@ -30,9 +30,9 @@ def rules_postgresql_dependencies():
 
     http_archive(
         name = "rules_foreign_cc",
-        sha256 = "2a4d07cd64b0719b39a7c12218a3e507672b82a97b98c6a89d38565894cf7c51",
-        strip_prefix = "rules_foreign_cc-0.9.0",
-        url = "https://github.com/bazelbuild/rules_foreign_cc/archive/refs/tags/0.9.0.tar.gz",
+        sha256 = "327b3fcacde97b9665424db2b6c37e6f8da59ecc783dc5b8683c69396f820a12",
+        strip_prefix = "rules_foreign_cc-0.16.0",
+        url = "https://github.com/bazelbuild/rules_foreign_cc/archive/refs/tags/0.16.0.tar.gz",
     )
 
     http_archive(
